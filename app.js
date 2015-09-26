@@ -1,18 +1,20 @@
 var app = angular.module('quizApp', []);
 
+/*
+app.controller('CountryCtrl', function ($scope, $http) {
+   $http.get('https://80000hours.org/wp-json/career_profiles').success(function(data) {
+       $scope.countries = data;
+   });
+5
+});
+*/
+
 app.directive('quiz', function(quizFactory) {
     return {
         restrict: 'AE',
         scope: {},
         templateUrl: 'template.htm',
         link: function(scope, elem, attrs) {
-            scope.start = function() {
-                scope.id = 0;
-                scope.quizOver = false;
-                scope.inProgress = true;
-                scope.getQuestion();
-            };
-
             scope.reset = function() {
                 scope.inProgress = false;
                 scope.score = 0;
@@ -57,7 +59,7 @@ app.directive('quiz', function(quizFactory) {
 
 
 app.factory('quizFactory', function() {
-    var questions = [
+    return [
         {
             question: "Are you good at math?",
             options: ["Yes", "No"],
@@ -75,15 +77,5 @@ app.factory('quizFactory', function() {
             options: ["No", "A little", "A lot"],
         }
     ];
- 
-    return {
-        getQuestion: function(id) {
-            if(id < questions.length) {
-                return questions[id];
-            } else {
-                return false;
-            }
-        }
-    };
 });
 
