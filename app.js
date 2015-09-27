@@ -22,7 +22,7 @@ app.controller('QuizController', function ($scope, $http) {
             name:'comm',
         },
         {
-            options: {"Yes": 1, "No": -1 },
+            options: {"Yes": -1, "No": 1 },
             question: "Happy to work in most competitive fields?",
             name:'competitive',
         },
