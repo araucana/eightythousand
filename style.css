@@ -193,3 +193,6 @@ width: 348px;
 .image img {
 	width:100%;
 }
+.match span {
+font-weight:bold;
+}
