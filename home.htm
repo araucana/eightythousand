@@ -25,6 +25,8 @@
                                     ng-model="value"  
                                     ng-change="radioSelected('{{question.name}}',
                                     value)"
+     ng-click="radioSelected(question.name,
+                                    value)"
                                      value="{{ optionValue }}">
                                      
           <label for="{{optionName+question.name}}">
@@ -37,7 +39,7 @@
     <div ng-show="quizOver">
       <h2>Results</h2>
       <div class="resultrow" ng-repeat="result in results"> 
-      <div class="name">{{ result.profile.title}} </div>
+          <div class="name">{{result.profile.title}}</div>
       <div class="image">
       <img src="{{result.profile.featuredImageUrl}}"></div>
       <div>{{result.profile.custom_fields.summaryHtml}}</div>

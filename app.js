@@ -38,6 +38,7 @@ app.controller('QuizController', function ($scope, $http) {
 
     $scope.radioSelected = function(questionName, value){        
         $scope.selectedChoices[questionName] = value;
+        console.log(questionName +" "+value);
         $scope.checkIfQuizDone();
     }
 
