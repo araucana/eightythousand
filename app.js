@@ -1,81 +1,72 @@
+'use strict';
 var app = angular.module('quizApp', []);
 
-/*
-app.controller('CountryCtrl', function ($scope, $http) {
-   $http.get('https://80000hours.org/wp-json/career_profiles').success(function(data) {
-       $scope.countries = data;
+
+app.controller('QuizController', function ($scope, $http) {
+   $http.get('career_profiles.json').success(function(data) {
+       $scope.allprofiles = data;
    });
-5
-});
-*/
 
-app.directive('quiz', function(quizFactory) {
-    return {
-        restrict: 'AE',
-        scope: {},
-        templateUrl: 'template.htm',
-        link: function(scope, elem, attrs) {
-            scope.reset = function() {
-                scope.inProgress = false;
-                scope.score = 0;
-            }
+   $scope.selectedChoices = {};
+   $scope.results = [];
 
-            scope.getQuestion = function() {
-                var q = quizFactory.getQuestion(scope.id);
-                if(q) {
-                    scope.question = q.question;
-                    scope.options = q.options;
-                    scope.answer = q.answer;
-                    scope.answerMode = true;
-                } else {
-                    scope.quizOver = true;
-                }
-            };
-
-            scope.checkAnswer = function() {
-                if(!$('input[name=answer]:checked').length) return;
-
-                var ans = $('input[name=answer]:checked').val();
-
-                if(ans == scope.options[scope.answer]) {
-                    scope.score++;
-                    scope.correctAns = true;
-                } else {
-                    scope.correctAns = false;
-                }
-
-                scope.answerMode = false;
-            };
-
-            scope.nextQuestion = function() {
-                scope.id++;
-                scope.getQuestion();
-            }
-
-            scope.reset();
-        }
-    }
-});
-
-
-app.factory('quizFactory', function() {
-    return [
+   $scope.questions = [
         {
             question: "Are you good at math?",
-            options: ["Yes", "No"],
+            options: {"Yes": 1, "No": -1},
+            name:'math',
         },
         {
             question: "Are you good at writing or speaking?",
-            options: ["Yes", "No"],
+            options: {"Yes": 1, "No": -1 },
+            name:'comm',
         },
         {
-            options: ["Yes", "No"],
+            options: {"Yes": 1, "No":-1},
             question: "Happy to work in most competitive fields?",
+            name:'competitive',
         },
         {
-            question: "How uncertain are you about what you want to do in the future?",
-            options: ["No", "A little", "A lot"],
+            question: "How certain are you about what you want to do in the future?",
+            options: {"Very": -1, "Not at all":1, "Some": 0},
+            name:'uncertain',
         }
     ];
+    $scope.buttonName = 'Calculate Results';
+
+    $scope.radioSelected = function(questionName, value){        
+        $scope.selectedChoices[questionName] = value;
+        console.log(questionName + value);
+    }
+
+    $scope.calculateResults = function() {
+       $scope.quizOver=true; 
+       $scope.buttonName = 'Recalculate Results';
+        var i = 0;
+        var scores = {};
+        for (var i = 0; i< $scope.allprofiles.length; i++) {
+            var profile = $scope.allprofiles[i];
+            var fields = profile.custom_fields;
+            var choices = $scope.selectedChoices;
+            if (typeof fields['requiresQuantitativeSkills'] !== 'undefined' &&
+                    typeof fields['requiresVerbalAndSocialSkills'] !== 'undefined' &&
+                    typeof fields['easeOfCompetition'] !== 'undefined' &&
+                    typeof fields['optionValue'] !== 'undefined'
+                    ) {
+                scores[i] = choices['math'] * fields['requiresQuantitativeSkills'] + 
+                choices['comm'] * fields['requiresVerbalAndSocialSkills'] +
+                choices['competitive'] * fields['easeOfCompetition'] + choices['uncertain'] * fields['optionValue'];
+                console.log(profile.title + scores[i]);
+            }
+        } 
+        var keysSorted = Object.keys(scores).sort(function(a,b){return scores[b]-scores[a]});
+        $scope.results = [];
+        for (var i = 0 ; i<3; i++) {
+            var index = keysSorted[i];
+            var profile = $scope.allprofiles[index];
+            var row = {'profile': profile,'match':scores[index]}
+            $scope.results.push(row)
+        }
+    };
 });
 

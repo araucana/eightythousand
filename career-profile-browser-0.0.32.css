@@ -1,0 +1,145 @@
+.bg-blue {
+	background-color: #028496
+}
+.bg-teal {
+	background-color: #2ebdd1
+}
+.bg-teal-mid {
+	background-color: #52cbdc
+}
+.bg-teal-light {
+	background-color: #80dce9
+}
+.bg-teal-lighter {
+	background-color: #bceaf0
+}
+.bg-teal-lightest {
+	background-color: #def5f8
+}
+.bg-yellow {
+	background-color: #ffbf34
+}
+.bg-red {
+	background-color: #ff4334
+}
+.bg-dgb-orange {
+	background-color: #e65400
+}
+.bg-off-black {
+	background-color: #2a2e30!important
+}
+.bg-gray-dark {
+	background-color: #484e51!important
+}
+.bg-gray {
+	background-color: #8e9092!important
+}
+.bg-gray-mid {
+	background-color: #aaa!important
+}
+.bg-gray-light {
+	background-color: #ddd!important
+}
+.bg-gray-lighter {
+	background-color: #eee!important
+}
+.bg-off-white {
+	background-color: #f5f5f5!important
+}
+.bg-white {
+	background-color: #fff!important
+}
+#career-profile-browser__form {
+	margin-bottom: 22px
+}
+#career-profile-browser__form legend {
+	border-bottom: none;
+	display: none
+}
+#career-profile-browser__form label {
+	font-weight: 600;
+	font-size: 1.5rem
+}
+#career-profile-browser__form label small {
+	display: block
+}
+#career-profile-browser__form .radio, #career-profile-browser__form .checkbox {
+	margin-left: 0
+}
+#career-profile-browser__form .radio span, #career-profile-browser__form .checkbox span {
+	position: relative;
+	top: -3px;
+	font-weight: 700
+}
+#career-profile-browser__form .radio small, #career-profile-browser__form .checkbox small {
+	display: block;
+	font-weight: 400;
+	font-size: 15px!important
+}
+#career-profile-browser__form label.square {
+	background-color: #fff;
+	font-size: 1rem;
+	border: 3px solid #fff
+}
+#career-profile-browser__form label.square:hover {
+	background-color: #bceaf0
+}
+#career-profile-browser__form label .square-inner {
+	height: 100%
+}
+#career-profile-browser__form label.selected {
+	border: 3px solid #2ebdd1;
+	background-color: #def5f8
+}
+#career-profile-browser__form .radio input[type=radio], #career-profile-browser__form .radio-inline input[type=radio], #career-profile-browser__form .checkbox input[type=checkbox], #career-profile-browser__form .checkbox-inline input[type=checkbox] {
+	position: absolute;
+	margin-left: 0;
+	bottom: 18px
+}
+.question__elaboration {
+	font-size: 1rem;
+	font-weight: 400
+}
+.question__answer-row>:first-child {
+	margin-left: 0
+}
+#career-profile-list {
+	margin-bottom: 0
+}
+#career-profile-list .career-profile-browser__profile-text-wrap {
+	height: auto;
+	padding-top: 0
+}
+.career-profile-browser__profile-title {
+	font-weight: 700
+}
+.career-profile-browser__profile-summary {
+	margin-top: 0!important
+}
+.career-profile-browser__match-score-panel {
+padding-top:.25rem;
+padding-bottom:.15rem;
+	margin-bottom: 1rem
+}
+.career-profile-browser__match-score-label {
+	display: block
+}
+.career-profile-browser__profile-wrap .tooltip {
+	width: 240px!important;
+font-size:.75rem
+}
+@media screen and (max-width:520px) {
+#career_recommender_email_results .input-group .form-control {
+	border-radius: 4px!important;
+	border-right: 2px solid #eee!important
+}
+#career_recommender_email_results .input-group-btn.input-group-btn-right {
+	margin-left: 1px!important;
+margin-top:.5rem!important;
+	display: block!important;
+	float: left!important
+}
+#career_recommender_email_results .input-group-btn.input-group-btn-right input {
+	border-radius: 4px!important
+}
+}
