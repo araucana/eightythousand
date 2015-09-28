@@ -36,6 +36,7 @@
     <div class="button">
     <button ng-click="calculateResults(false)" class="calculate">{{ buttonName }} </button></div>
     <div ng-show="quizOver">
+        <div>
       <h2>Results</h2>
       <div class="resultrow" ng-repeat="result in results"> 
           <div class="name">{{result.profile.title}}</div>
@@ -48,6 +49,17 @@
       <a href="{{ result.profile.link }}">Read career profile</a>
       </div>
     </div>
+        </div>
+        <div id="email">
+            <form name="userForm">
+            <h2>Email these results to me</h2><input name="email" type="email"
+            ng-model="myemail">
+            <button ng-click="sendEmail()">Send
+                email</button>
+        </div>
+
+        </div>
+
   </div>
 </div>
 </body>

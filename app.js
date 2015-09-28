@@ -19,6 +19,19 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
 
    $scope.Math = window.Math;
 
+   $scope.sendEmail = function() {
+       var email = $scope.myemail;
+       if (typeof email == 'undefined') {
+           return;
+       }
+       var url = $location.absUrl();
+       console.log('send email to ' + email + $location.absUrl());
+       $.post("sendemail.php",{email: email, url: url},function(data){
+           alert("Email sent!");
+           }
+           );
+   }
+
    // a list of the top three results
    $scope.results = [];
 
