@@ -7,4 +7,5 @@ TODO
 * Look into ngchange problem and make sure ngclick bugfix works on mobile / keyboard shortcuts
 * hook in angular sanitize library so I can print proper HTML instead of sanitized HTML
 * Import fonts
+* Test in mobile
 

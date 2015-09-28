@@ -18,19 +18,17 @@
         href="https://80000hours.org/career-guide/profiles/">the ones
   we’ve reviewed so far</a>.
   <div class="quiz-area">
-    <div ng-repeat="question in questions">
+    <div ng-repeat="(qkey, question) in questions">
       <h2 class="question">{{ question.question }}</h2>
       <div class="options" ng-repeat="(optionName, optionValue) in question.options">
-            <input type="radio" id="{{optionName+question.name}}" name="{{ question.name }}"
-                                    ng-model="value"  
-                                    ng-change="radioSelected('{{question.name}}',
-                                    value)"
-     ng-click="radioSelected(question.name,
-                                    value)"
-                                     value="{{ optionValue }}">
-                                     
-          <label for="{{optionName+question.name}}">
-            {{ optionName }} </label>
+          <input type="radio" 
+            id="{{optionName + qkey}}" 
+            name="{{ qkey }}"
+            ng-model="value"  
+            ng-change="radioSelected('{{ qkey }}', value)"
+            ng-click="radioSelected(qkey, value)"
+            value="{{ optionName }}">
+          <label for="{{optionName + qkey}}">{{ optionName }}</label>
         </div>
       </div>
     </div>
@@ -44,8 +42,9 @@
       <img src="{{result.profile.featuredImageUrl}}"></div>
       <div>{{result.profile.custom_fields.summaryHtml}}</div>
       <div class="fit"><span>Key facts on fit:</span> {{ result.profile.custom_fields.keyFactsOnFit }}</div>
-      <div class="match"><span>Match:</span> {{ result.match / 2 }} / 10</div><br />
-      <a href="{{result.profile.link}}">Read career profile</a>
+      <div class="match"><span>Match:</span> {{ Math.round(result.match /
+          result.matchPossible * 10) }} / 10</div><br />
+      <a href="{{ result.profile.link }}">Read career profile</a>
       </div>
     </div>
   </div>
