@@ -1,7 +1,6 @@
 'use strict';
 var app = angular.module('quizApp', []);
 
-
 app.controller('QuizController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     var BUTTON_TEXT_INCOMPLETE = 'Quiz not yet completed';
@@ -41,7 +40,7 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
         },
         '4uncertain' : {
             question: "How much flexibility would you want in the future?",
-            options: {"I don't care": 0, "A lot": 1, "At least some": 0.5},
+            options: {"Does not matter": 0, "A lot": 1, "At least some": 0.5},
             profileField: 'optionValue',
         }
    };
@@ -52,12 +51,12 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
     // things work.
     $scope.radioSelected = function(qkey, value){        
         selectedChoices[qkey] = value;
-        // console.log(qkey +" "+value);
-        $scope.checkIfQuizDone();
+        console.log(qkey +" "+value);
+        checkIfQuizDone();
     }
 
     $scope.buttonName = BUTTON_TEXT_INCOMPLETE;
-    $scope.checkIfQuizDone = function() {
+    var checkIfQuizDone = function() {
         for (var key in $scope.questions) {
             if(typeof selectedChoices[key] == 'undefined') {
                 $scope.buttonName = BUTTON_TEXT_INCOMPLETE;
@@ -87,12 +86,22 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
         return score;
     };
 
-    $scope.calculateResults = function() {
-        if (!$scope.checkIfQuizDone()) {
+
+    $scope.calculateResults = function(apply) {
+        if(typeof $scope.allprofiles == "undefined") {
+            console.log('waiting for json to load');
+            setTimeout($scope.calculateResults, apply, 250);
+        } else {
+            calculateResultsInternal(apply);
+        }
+    };
+
+    var calculateResultsInternal = function(apply) {
+        console.log('calculateResultsInternal called');
+        if (!checkIfQuizDone()) {
             alert('quiz not complete');
             return;
         }
-        console.log('recalculating');
         $scope.quizOver=true; 
         buttonNameSubmitText = BUTTON_TEXT_RESUBMIT;
         $scope.buttonName = buttonNameSubmitText;
@@ -116,7 +125,6 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
                         profileScore = calculateProfileScore(profileScore,
                                 selectedChoiceValue,
                                 profileFieldValue);
-
                         /*console.log(qkey + $scope.questions[qkey].profileField 
                                 + " " + oldProfileScore 
                                 + " " + selectedChoiceValue 
@@ -128,7 +136,7 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
                                 idealFieldValue);
 			        }
 			    }
-                console.log($scope.allprofiles[i].title + " " + profileScore + " " + profilePossibleScore);
+                //console.log($scope.allprofiles[i].title + " " + profileScore + " " + profilePossibleScore);
                 scores[i] = profileScore;
                 possiblescores[i] = profilePossibleScore;
             }
@@ -142,6 +150,10 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
             $scope.results.push(row);
         }
         updateUrl();
+        if (apply) {
+            $scope.$apply();
+        }
+        console.log('calculateResultsInternal end');
     };
 
     var updateUrl = function() {
@@ -151,5 +163,39 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
         }
         $location.path(path, false);
     }
+
+    var loadUrl = function() {
+        var args = $location.path().split('/');
+        var parsedChoices = {};
+        for (var i = 1; i< args.length - 1; i+=2) {
+            parsedChoices[args[i]] = args[i+1];
+        }
+        if (!checkIfValidUrlAndShouldLoad(parsedChoices)) {
+            return;
+        }
+        selectedChoices = parsedChoices;
+        
+        $scope.calculateResults(true);
+    }
+
+    $scope.isChecked = function(qkey, optionName) {
+        return selectedChoices[qkey] == optionName;
+    }
+    
+    var checkIfValidUrlAndShouldLoad = function(parsedChoices) {
+        for (var qkey in $scope.questions) {
+            if (Object.keys(parsedChoices).indexOf(qkey) == -1) {
+                console.log("question <" + qkey + "> not in url <" + Object.keys(parsedChoices) + ">");
+                return false;
+            }
+            if (Object.keys($scope.questions[qkey].options).indexOf(parsedChoices[qkey]) == -1) {
+                console.log("question <" + qkey + "> option <" + parsedChoices[qkey] + "> not an option in <" + Object.keys($scope.questions[qkey].options) + ">");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    loadUrl();
 }]);
 

@@ -27,19 +27,20 @@
             ng-model="value"  
             ng-change="radioSelected('{{ qkey }}', value)"
             ng-click="radioSelected(qkey, value)"
-            value="{{ optionName }}">
+            value="{{ optionName }}"
+            ng-checked="isChecked('{{qkey}}', '{{optionName}}')">
           <label for="{{optionName + qkey}}">{{ optionName }}</label>
         </div>
       </div>
     </div>
     <div class="button">
-    <button ng-click="calculateResults()" class="calculate">{{ buttonName }} </button></div>
+    <button ng-click="calculateResults(false)" class="calculate">{{ buttonName }} </button></div>
     <div ng-show="quizOver">
       <h2>Results</h2>
       <div class="resultrow" ng-repeat="result in results"> 
           <div class="name">{{result.profile.title}}</div>
       <div class="image">
-      <img src="{{result.profile.featuredImageUrl}}"></div>
+      <img src="{{ result.profile.featuredImageUrl }}"></div>
       <div>{{result.profile.custom_fields.summaryHtml}}</div>
       <div class="fit"><span>Key facts on fit:</span> {{ result.profile.custom_fields.keyFactsOnFit }}</div>
       <div class="match"><span>Match:</span> {{ Math.round(result.match /
