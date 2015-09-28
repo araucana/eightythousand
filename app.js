@@ -27,9 +27,10 @@ app.controller('QuizController', ['$scope', '$http', '$location', function ($sco
        var url = $location.absUrl();
        console.log('send email to ' + email + $location.absUrl());
        $.post("sendemail.php",{email: email, url: url},function(data){
+           console.log(data);
            alert("Email sent!");
-           }
-           );
+        }
+    );
    }
 
    // a list of the top three results

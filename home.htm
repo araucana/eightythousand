@@ -21,7 +21,7 @@
     <div ng-repeat="(qkey, question) in questions">
       <h2 class="question">{{ question.question }}</h2>
       <div class="options" ng-repeat="(optionName, optionValue) in question.options">
-          <input type="radio" 
+        <input type="radio" 
             id="{{optionName + qkey}}" 
             name="{{ qkey }}"
             ng-model="value"  
@@ -29,37 +29,35 @@
             ng-click="radioSelected(qkey, value)"
             value="{{ optionName }}"
             ng-checked="isChecked('{{qkey}}', '{{optionName}}')">
-          <label for="{{optionName + qkey}}">{{ optionName }}</label>
-        </div>
+        <label for="{{optionName + qkey}}">{{ optionName }}</label>
       </div>
     </div>
-    <div class="button">
-    <button ng-click="calculateResults(false)" class="calculate">{{ buttonName }} </button></div>
-    <div ng-show="quizOver">
-        <div>
+  </div>
+  <div class="button">
+    <button ng-click="calculateResults(false)" class="calculate">{{ buttonName }} </button>
+  </div>
+  <div ng-show="quizOver">
+    <div>
       <h2>Results</h2>
-      <div class="resultrow" ng-repeat="result in results"> 
-          <div class="name">{{result.profile.title}}</div>
-      <div class="image">
-      <img src="{{ result.profile.featuredImageUrl }}"></div>
-      <div>{{result.profile.custom_fields.summaryHtml}}</div>
-      <div class="fit"><span>Key facts on fit:</span> {{ result.profile.custom_fields.keyFactsOnFit }}</div>
-      <div class="match"><span>Match:</span> {{ Math.round(result.match /
-          result.matchPossible * 10) }} / 10</div><br />
-      <a href="{{ result.profile.link }}">Read career profile</a>
-      </div>
+      <div class="resultrow" ng-repeat="result in results">
+        <div class="name">{{result.profile.title}}</div>
+        <div class="image"> <img src="{{ result.profile.featuredImageUrl }}"></div>
+        <div>{{result.profile.custom_fields.summaryHtml}}</div>
+        <div class="fit"><span>Key facts on fit:</span> {{ result.profile.custom_fields.keyFactsOnFit }}</div>
+        <div class="match"><span>Match:</span> {{ Math.round(result.match /
+          result.matchPossible * 10) }} / 10</div>
+        <br />
+        <a href="{{ result.profile.link }}">Read career profile</a></div>
     </div>
-        </div>
-        <div id="email">
-            <form name="userForm">
-            <h2>Email these results to me</h2><input name="email" type="email"
+    <div id="email">
+      <form name="userForm">
+        <h2>Email these results to me</h2>
+        <input name="email" type="email"
             ng-model="myemail">
-            <button ng-click="sendEmail()">Send
-                email</button>
-        </div>
-
-        </div>
-
+        <button ng-click="sendEmail()">Send
+        email</button>
+      </form>
+    </div>
   </div>
 </div>
 </body>
